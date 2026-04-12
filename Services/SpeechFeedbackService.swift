@@ -10,8 +10,8 @@ struct AIBackendErrorResponse: Decodable {
 
 enum AIServiceError: LocalizedError {
     case backend(message: String)
-    case decoding(detail: String? = nil)
-    case unavailable(detail: String? = nil)
+    case decoding(detail: String?)
+    case unavailable(detail: String?)
 
     var errorDescription: String? {
         switch self {
@@ -93,7 +93,7 @@ final class SpeechFeedbackService {
     }
 
     func requestRemoteFeedback(_ requestBody: SpeechFeedbackRequest) async throws -> PracticeSpeechFeedback {
-        guard let endpointURL else { throw AIServiceError.unavailable }
+        guard let endpointURL else { throw AIServiceError.unavailable(detail: nil) }
 
         var request = URLRequest(url: endpointURL)
         request.httpMethod = "POST"
@@ -103,7 +103,7 @@ final class SpeechFeedbackService {
             request.httpBody = try JSONEncoder().encode(requestBody)
             let (data, response) = try await session.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse else {
-                throw AIServiceError.unavailable
+                throw AIServiceError.unavailable(detail: nil)
             }
             guard (200..<300).contains(httpResponse.statusCode) else {
                 throw Self.decodeBackendError(from: data)
@@ -118,21 +118,21 @@ final class SpeechFeedbackService {
             )
         } catch let error as DecodingError {
             #if DEBUG
-            print("[SpeakUp] Failed to decode speech feedback response from \\(endpointURL.absoluteString): \\(error)")
+            print("[SpeakUp] Failed to decode speech feedback response from \(endpointURL.absoluteString): \(error)")
             #endif
-            throw AIServiceError.decoding
+            throw AIServiceError.decoding(detail: nil)
         } catch let error as URLError {
             #if DEBUG
-            print("[SpeakUp] Network error while requesting speech feedback from \\(endpointURL.absoluteString): \\(error)")
+            print("[SpeakUp] Network error while requesting speech feedback from \(endpointURL.absoluteString): \(error)")
             #endif
             throw AIServiceError.backend(message: "The app couldn't reach the AI service. Check your internet connection and try again.")
         } catch let error as AIServiceError {
             throw error
         } catch {
             #if DEBUG
-            print("[SpeakUp] Unexpected speech feedback error from \\(endpointURL.absoluteString): \\(error)")
+            print("[SpeakUp] Unexpected speech feedback error from \(endpointURL.absoluteString): \(error)")
             #endif
-            throw AIServiceError.unavailable
+            throw AIServiceError.unavailable(detail: nil)
         }
     }
 
@@ -184,19 +184,19 @@ final class DrillGenerationService {
             return makeGeneratedScript(from: responseBody, requestBody: requestBody)
         } catch let error as DecodingError {
             #if DEBUG
-            print("[SpeakUp] Failed to decode generated drill response from \\(endpointURL.absoluteString): \\(error)")
+            print("[SpeakUp] Failed to decode generated drill response from \(endpointURL.absoluteString): \(error)")
             #endif
             throw AIServiceError.decoding(detail: "Endpoint: \(endpointURL.absoluteString)\nDecoding error: \(error.localizedDescription)")
         } catch let error as URLError {
             #if DEBUG
-            print("[SpeakUp] Network error while generating drill from \\(endpointURL.absoluteString): \\(error)")
+            print("[SpeakUp] Network error while generating drill from \(endpointURL.absoluteString): \(error)")
             #endif
             throw AIServiceError.backend(message: "The app couldn't reach the AI service. Check your internet connection and try again.\n\nEndpoint: \(endpointURL.absoluteString)\nNetwork error: \(error.code.rawValue) \(error.localizedDescription)")
         } catch let error as AIServiceError {
             throw error
         } catch {
             #if DEBUG
-            print("[SpeakUp] Unexpected drill generation error from \\(endpointURL.absoluteString): \\(error)")
+            print("[SpeakUp] Unexpected drill generation error from \(endpointURL.absoluteString): \(error)")
             #endif
             throw AIServiceError.unavailable(detail: "Endpoint: \(endpointURL.absoluteString)\nUnexpected error: \(error.localizedDescription)")
         }
@@ -240,6 +240,6 @@ private extension SpeechFeedbackService {
         if let backendError = try? JSONDecoder().decode(AIBackendErrorResponse.self, from: data) {
             return .backend(message: backendError.userMessage ?? backendError.error)
         }
-        return .decoding
+        return .decoding(detail: nil)
     }
 }
