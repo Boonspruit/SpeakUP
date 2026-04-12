@@ -669,8 +669,8 @@
 				DEVELOPMENT_TEAM = NY34D8S35R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_SpeakUpDrillGenerationEndpoint = "http://127.0.0.1:8787/generate-drill";
-				INFOPLIST_KEY_SpeakUpFeedbackEndpoint = "http://127.0.0.1:8787/speech-feedback";
+				INFOPLIST_KEY_SpeakUpDrillGenerationEndpoint = "https://speakup-backend-6b4j.onrender.com/generate-drill";
+				INFOPLIST_KEY_SpeakUpFeedbackEndpoint = "https://speakup-backend-6b4j.onrender.com/speech-feedback";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "SpeakUp records your speaking drills so you can review your progress.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "SpeakUp transcribes your speaking drills to create supportive feedback.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -706,8 +706,8 @@
 				DEVELOPMENT_TEAM = NY34D8S35R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_SpeakUpDrillGenerationEndpoint = "";
-				INFOPLIST_KEY_SpeakUpFeedbackEndpoint = "";
+				INFOPLIST_KEY_SpeakUpDrillGenerationEndpoint = "https://speakup-backend-6b4j.onrender.com/generate-drill";
+				INFOPLIST_KEY_SpeakUpFeedbackEndpoint = "https://speakup-backend-6b4j.onrender.com/speech-feedback";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "SpeakUp records your speaking drills so you can review your progress.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "SpeakUp transcribes your speaking drills to create supportive feedback.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
