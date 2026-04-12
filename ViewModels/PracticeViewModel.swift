@@ -116,10 +116,21 @@ final class PracticeViewModel: ObservableObject {
             generatedDrillPreview = generatedDrill
             return generatedDrill
         } catch let error as AIServiceError {
-            generationErrorMessage = error.errorDescription
+            generationErrorMessage = [
+                error.errorDescription,
+                "Backend URL: \(drillGenerationService.endpointDescription)"
+            ]
+            .compactMap { $0 }
+            .joined(separator: "\n\n")
             return nil
         } catch {
-            generationErrorMessage = "We couldn't generate a new drill right now. The AI service returned an unexpected error."
+            generationErrorMessage = """
+            We couldn't generate a new drill right now. The AI service returned an unexpected error.
+
+            Backend URL: \(drillGenerationService.endpointDescription)
+
+            Error: \(error.localizedDescription)
+            """
             return nil
         }
     }

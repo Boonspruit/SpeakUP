@@ -10,17 +10,21 @@ struct AIBackendErrorResponse: Decodable {
 
 enum AIServiceError: LocalizedError {
     case backend(message: String)
-    case decoding
-    case unavailable
+    case decoding(detail: String? = nil)
+    case unavailable(detail: String? = nil)
 
     var errorDescription: String? {
         switch self {
         case let .backend(message):
             return message
-        case .decoding:
-            return "The backend returned an unexpected response. Check the server logs and try again."
-        case .unavailable:
-            return "The AI service is unavailable right now. Please try again shortly."
+        case let .decoding(detail):
+            return ["The backend returned an unexpected response. Check the server logs and try again.", detail]
+                .compactMap { $0 }
+                .joined(separator: "\n\n")
+        case let .unavailable(detail):
+            return ["The AI service is unavailable right now. Please try again shortly.", detail]
+                .compactMap { $0 }
+                .joined(separator: "\n\n")
         }
     }
 }
@@ -148,13 +152,19 @@ final class DrillGenerationService {
     private let session: URLSession
     private let endpointURL: URL?
 
+    var endpointDescription: String {
+        endpointURL?.absoluteString ?? "missing SpeakUpDrillGenerationEndpoint"
+    }
+
     init(session: URLSession = .shared, endpointURL: URL? = DrillGenerationService.defaultEndpointURL()) {
         self.session = session
         self.endpointURL = endpointURL
     }
 
     func generateDrill(from requestBody: DrillGenerationRequest) async throws -> Script {
-        guard let endpointURL else { throw AIServiceError.unavailable }
+        guard let endpointURL else {
+            throw AIServiceError.unavailable(detail: "Missing backend URL in SpeakUpDrillGenerationEndpoint.")
+        }
 
         var request = URLRequest(url: endpointURL)
         request.httpMethod = "POST"
@@ -164,7 +174,7 @@ final class DrillGenerationService {
             request.httpBody = try JSONEncoder().encode(requestBody)
             let (data, response) = try await session.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse else {
-                throw AIServiceError.unavailable
+                throw AIServiceError.unavailable(detail: "No HTTP response from \(endpointURL.absoluteString)")
             }
             guard (200..<300).contains(httpResponse.statusCode) else {
                 throw SpeechFeedbackService.decodeBackendError(from: data)
@@ -176,19 +186,19 @@ final class DrillGenerationService {
             #if DEBUG
             print("[SpeakUp] Failed to decode generated drill response from \\(endpointURL.absoluteString): \\(error)")
             #endif
-            throw AIServiceError.backend(message: "The AI service returned data the app couldn't read. Rebuild the app and try again.")
+            throw AIServiceError.decoding(detail: "Endpoint: \(endpointURL.absoluteString)\nDecoding error: \(error.localizedDescription)")
         } catch let error as URLError {
             #if DEBUG
             print("[SpeakUp] Network error while generating drill from \\(endpointURL.absoluteString): \\(error)")
             #endif
-            throw AIServiceError.backend(message: "The app couldn't reach the AI service. Check your internet connection and try again.")
+            throw AIServiceError.backend(message: "The app couldn't reach the AI service. Check your internet connection and try again.\n\nEndpoint: \(endpointURL.absoluteString)\nNetwork error: \(error.code.rawValue) \(error.localizedDescription)")
         } catch let error as AIServiceError {
             throw error
         } catch {
             #if DEBUG
             print("[SpeakUp] Unexpected drill generation error from \\(endpointURL.absoluteString): \\(error)")
             #endif
-            throw AIServiceError.unavailable
+            throw AIServiceError.unavailable(detail: "Endpoint: \(endpointURL.absoluteString)\nUnexpected error: \(error.localizedDescription)")
         }
     }
 
