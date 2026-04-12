@@ -126,6 +126,14 @@ app.post("/generate-drill", async (req, res) => {
   const tone = stringOr(body.tone, "supportive");
   const seedScenario = stringOr(body.seedScenario, "");
   const similarToDrillTitle = stringOr(body.similarToDrillTitle, "");
+  const contextualFallback = buildContextualFallbackDrill({
+    focusTrack,
+    difficulty,
+    targetDurationSec,
+    tone,
+    seedScenario,
+    similarToDrillTitle
+  });
 
   try {
     const prompt = buildDrillPrompt({
@@ -164,11 +172,12 @@ app.post("/generate-drill", async (req, res) => {
       focusTrack,
       difficulty,
       targetDurationSec,
-      tone
+      tone,
+      contextualFallback
     });
 
     if (looksLikeOutlineDrill(response, targetDurationSec)) {
-      throw new Error("Generated drill was still an outline instead of spoken rehearsal copy.");
+      return res.json(contextualFallback);
     }
 
     return res.json(response);
@@ -278,22 +287,23 @@ function extractText(response) {
 
 function normalizeDrillResponse(raw, defaults) {
   const focusTrack = normalizeFocusTrack(raw.focusTrack || defaults.focusTrack);
+  const fallback = defaults.contextualFallback;
   return {
-    title: stringOr(raw.title, "Fresh Drill"),
+    title: usableDrillText(raw.title, fallback.title),
     category: focusTrackToCategory[focusTrack] || "presentation",
     focusTrack,
-    scenario: stringOr(raw.scenario, "A practical speaking scenario"),
+    scenario: usableDrillText(raw.scenario, fallback.scenario),
     difficulty: normalizeDifficulty(raw.difficulty || defaults.difficulty),
     targetDurationSec: normalizeDuration(raw.targetDurationSec || defaults.targetDurationSec),
-    tone: stringOr(raw.tone, defaults.tone),
-    coachingGoal: stringOr(raw.coachingGoal, "Practice sounding clear and confident."),
-    focusHint: stringOr(raw.focusHint, "Keep your pace steady and your delivery natural."),
+    tone: usableDrillText(raw.tone, defaults.tone),
+    coachingGoal: usableDrillText(raw.coachingGoal, fallback.coachingGoal),
+    focusHint: usableDrillText(raw.focusHint, fallback.focusHint),
     sections: {
-      opening: stringOr(raw.sections?.opening, "Thanks for being here today. I want to share one short example that shows how I handle this kind of moment."),
-      point_1: stringOr(raw.sections?.point_1, "The situation was challenging at first, so I focused on staying clear, calm, and specific about what needed to happen next."),
-      point_2: stringOr(raw.sections?.point_2, "I broke the problem into a few simple steps, communicated the priorities, and kept people aligned as we moved forward."),
-      point_3: stringOr(raw.sections?.point_3, "That approach helped the conversation feel more confident and practical, and it made the result easier for everyone to follow."),
-      closing: stringOr(raw.sections?.closing, "That experience reminded me that clear communication builds trust, especially when the stakes feel high.")
+      opening: usableDrillSection(raw.sections?.opening, fallback.sections.opening),
+      point_1: usableDrillSection(raw.sections?.point_1, fallback.sections.point_1),
+      point_2: usableDrillSection(raw.sections?.point_2, fallback.sections.point_2),
+      point_3: usableDrillSection(raw.sections?.point_3, fallback.sections.point_3),
+      closing: usableDrillSection(raw.sections?.closing, fallback.sections.closing)
     }
   };
 }
@@ -358,6 +368,22 @@ function targetWordRange(durationSec) {
   }
 }
 
+function usableDrillText(value, fallback) {
+  const normalized = String(value || "").trim();
+  if (!normalized) return fallback;
+  if (["fresh drill", "a practical speaking scenario"].includes(normalized.toLowerCase())) {
+    return fallback;
+  }
+  return normalized;
+}
+
+function usableDrillSection(value, fallback) {
+  const normalized = String(value || "").trim();
+  if (!normalized) return fallback;
+  if (looksLikeInstructionalSection(normalized)) return fallback;
+  return normalized;
+}
+
 function looksLikeOutlineDrill(drill, targetDurationSec) {
   const sections = [
     drill?.sections?.opening,
@@ -372,7 +398,25 @@ function looksLikeOutlineDrill(drill, targetDurationSec) {
   if (sections.length < 5) return true;
 
   const combined = sections.join(" ").toLowerCase();
-  const instructionPatterns = [
+  if (looksLikeInstructionalSection(combined)) {
+    return true;
+  }
+
+  const totalWords = combined.split(/\s+/).filter(Boolean).length;
+  const wordRange = targetWordRange(targetDurationSec);
+  if (totalWords < wordRange.min) {
+    return true;
+  }
+
+  const averageWordsPerSection = totalWords / sections.length;
+  return averageWordsPerSection < 10;
+}
+
+function looksLikeInstructionalSection(text) {
+  const lower = String(text || "").trim().toLowerCase();
+  if (!lower) return true;
+
+  return [
     "open with",
     "start with",
     "close with",
@@ -387,20 +431,160 @@ function looksLikeOutlineDrill(drill, targetDurationSec) {
     "talk about ",
     "say why",
     "explain how"
-  ];
+  ].some((pattern) => lower.includes(pattern));
+}
 
-  if (instructionPatterns.some((pattern) => combined.includes(pattern))) {
-    return true;
+function buildContextualFallbackDrill({
+  focusTrack,
+  difficulty,
+  targetDurationSec,
+  tone,
+  seedScenario,
+  similarToDrillTitle
+}) {
+  const scenario = deriveScenario(focusTrack, seedScenario, similarToDrillTitle);
+  const template = contextualTemplateFor(focusTrack, scenario);
+
+  return {
+    title: deriveTitle(focusTrack, scenario, similarToDrillTitle),
+    category: focusTrackToCategory[focusTrack] || "presentation",
+    focusTrack,
+    scenario,
+    difficulty,
+    targetDurationSec,
+    tone,
+    coachingGoal: template.coachingGoal,
+    focusHint: template.focusHint,
+    sections: template.sections
+  };
+}
+
+function deriveScenario(focusTrack, seedScenario, similarToDrillTitle) {
+  const seed = stringOr(seedScenario, similarToDrillTitle).trim();
+  if (seed) return seed;
+
+  switch (focusTrack) {
+    case "interviews":
+      return "behavioral interview answer";
+    case "work":
+      return "team update";
+    case "social":
+      return "introducing yourself in a group";
+    case "school":
+      return "class presentation opener";
+    case "storytelling":
+      return "a short personal story";
+    default:
+      return "a practical speaking scenario";
+  }
+}
+
+function deriveTitle(focusTrack, scenario, similarToDrillTitle) {
+  if (similarToDrillTitle && !/^fresh drill$/i.test(similarToDrillTitle.trim())) {
+    return `Another ${similarToDrillTitle.trim()}`;
   }
 
-  const totalWords = combined.split(/\s+/).filter(Boolean).length;
-  const wordRange = targetWordRange(targetDurationSec);
-  if (totalWords < wordRange.min) {
-    return true;
+  const normalizedScenario = String(scenario || "").toLowerCase();
+  if (focusTrack === "interviews" && normalizedScenario.includes("challenge")) {
+    return "A Challenge I Overcame";
+  }
+  if (focusTrack === "interviews" && normalizedScenario.includes("tell me about yourself")) {
+    return "Tell Me About Yourself";
+  }
+  if (focusTrack === "work" && normalizedScenario.includes("update")) {
+    return "Clear Team Update";
+  }
+  if (focusTrack === "social" && normalizedScenario.includes("introduc")) {
+    return "Friendly Self Introduction";
+  }
+  if (focusTrack === "school" && normalizedScenario.includes("presentation")) {
+    return "Confident Class Opening";
+  }
+  if (focusTrack === "storytelling") {
+    return "A Short Personal Story";
   }
 
-  const averageWordsPerSection = totalWords / sections.length;
-  return averageWordsPerSection < 10;
+  return titleCaseScenario(scenario);
+}
+
+function titleCaseScenario(value) {
+  return String(value || "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function contextualTemplateFor(focusTrack, scenario) {
+  const s = String(scenario || "").toLowerCase();
+
+  if (focusTrack === "interviews" && (s.includes("challenge") || s.includes("behavioral"))) {
+    return {
+      coachingGoal: "Practice telling a challenge story with a clear beginning, action, and outcome.",
+      focusHint: "Keep the story specific, calm, and outcome-focused.",
+      sections: {
+        opening: "One challenge I faced was leading a project where priorities were shifting and different teams were moving at different speeds.",
+        point_1: "At first, it was hard to keep everyone aligned because people were solving the problem from different angles and key decisions were getting delayed.",
+        point_2: "I stepped back, clarified the immediate goal, and set up a simple communication rhythm so each team knew what needed to happen and when.",
+        point_3: "That structure helped us move faster, reduced confusion, and gave everyone more confidence in the plan we were following.",
+        closing: "It taught me that in a high-pressure situation, clear communication and steady follow-through can turn a messy problem into real progress."
+      }
+    };
+  }
+
+  if (focusTrack === "work" && s.includes("update")) {
+    return {
+      coachingGoal: "Practice giving a concise update that sounds calm, clear, and useful.",
+      focusHint: "Lead with progress, mention the blocker, then end with the next step.",
+      sections: {
+        opening: "Good morning everyone. Here is a quick update on where the project stands this week.",
+        point_1: "We completed the design handoff, aligned on the onboarding flow, and wrapped up the highest-priority implementation work.",
+        point_2: "The main challenge right now is tightening the final review cycle so we can keep the release timeline moving without creating confusion.",
+        point_3: "This week, the team is focusing on polishing the remaining issues, confirming ownership, and keeping communication simple across functions.",
+        closing: "Overall, we are making steady progress, and I feel good about where things are headed if we stay focused on the next few priorities."
+      }
+    };
+  }
+
+  if (focusTrack === "social" && s.includes("introduc")) {
+    return {
+      coachingGoal: "Practice sounding warm and natural when you introduce yourself.",
+      focusHint: "Keep it simple, friendly, and easy to say in one breath.",
+      sections: {
+        opening: "Hi everyone, I’m glad to be here. My name is Alex, and I work in product design.",
+        point_1: "I spend most of my time helping teams turn rough ideas into clearer experiences that people can actually use.",
+        point_2: "What I enjoy most is learning how people think, where they get stuck, and how small changes can make something feel much easier.",
+        point_3: "Outside of work, I like long walks, good coffee, and finding little routines that make a busy week feel calmer.",
+        closing: "It’s great to meet you all, and I’m looking forward to getting to know everyone a little better."
+      }
+    };
+  }
+
+  if (focusTrack === "school") {
+    return {
+      coachingGoal: "Practice opening a class explanation with structure and confidence.",
+      focusHint: "Introduce the topic clearly, explain the main idea, and end with the takeaway.",
+      sections: {
+        opening: "Today I want to explain this idea in a simple way so the main point feels easy to follow from the start.",
+        point_1: "The first thing to understand is why this topic matters, because the purpose makes the details much easier to remember.",
+        point_2: "Once that foundation is clear, the next step is seeing how the main parts connect and why each piece plays a different role.",
+        point_3: "When you look at the full picture, the concept becomes less overwhelming and much more practical to apply.",
+        closing: "That is the key takeaway I want to leave with you, because it gives the whole topic a clearer shape."
+      }
+    };
+  }
+
+  return {
+    coachingGoal: "Practice sounding clear, natural, and confident from start to finish.",
+    focusHint: "Keep your pace steady and make each section feel conversational.",
+    sections: {
+      opening: "Thanks for being here today. I want to share one short example that shows how I handle this kind of moment.",
+      point_1: "The situation was challenging at first, so I focused on staying clear, calm, and specific about what needed to happen next.",
+      point_2: "I broke the problem into a few simple steps, communicated the priorities, and kept people aligned as we moved forward.",
+      point_3: "That approach helped the conversation feel more confident and practical, and it made the result easier for everyone to follow.",
+      closing: "That experience reminded me that clear communication builds trust, especially when the stakes feel high."
+    }
+  };
 }
 
 function normalizeFocusTrack(value) {
