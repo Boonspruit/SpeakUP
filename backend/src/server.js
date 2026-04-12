@@ -88,6 +88,18 @@ const feedbackSchema = {
   propertyOrdering: ["strength", "suggestions", "claritySummary"]
 };
 
+app.get("/", (_req, res) => {
+  res.json({
+    service: "SpeakUp backend",
+    ok: true,
+    health: "/health",
+    generateDrill: "/generate-drill",
+    speechFeedback: "/speech-feedback",
+    model: GEMINI_MODEL,
+    geminiConfigured: Boolean(GEMINI_API_KEY)
+  });
+});
+
 app.get("/health", (_req, res) => {
   res.json({
     ok: true,

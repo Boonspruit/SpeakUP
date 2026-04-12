@@ -112,9 +112,22 @@ final class SpeechFeedbackService {
                 claritySummary: feedbackResponse.claritySummary,
                 source: .remote
             )
+        } catch let error as DecodingError {
+            #if DEBUG
+            print("[SpeakUp] Failed to decode speech feedback response from \\(endpointURL.absoluteString): \\(error)")
+            #endif
+            throw AIServiceError.decoding
+        } catch let error as URLError {
+            #if DEBUG
+            print("[SpeakUp] Network error while requesting speech feedback from \\(endpointURL.absoluteString): \\(error)")
+            #endif
+            throw AIServiceError.backend(message: "The app couldn't reach the AI service. Check your internet connection and try again.")
         } catch let error as AIServiceError {
             throw error
         } catch {
+            #if DEBUG
+            print("[SpeakUp] Unexpected speech feedback error from \\(endpointURL.absoluteString): \\(error)")
+            #endif
             throw AIServiceError.unavailable
         }
     }
@@ -159,9 +172,22 @@ final class DrillGenerationService {
 
             let responseBody = try JSONDecoder().decode(DrillGenerationResponse.self, from: data)
             return makeGeneratedScript(from: responseBody, requestBody: requestBody)
+        } catch let error as DecodingError {
+            #if DEBUG
+            print("[SpeakUp] Failed to decode generated drill response from \\(endpointURL.absoluteString): \\(error)")
+            #endif
+            throw AIServiceError.backend(message: "The AI service returned data the app couldn't read. Rebuild the app and try again.")
+        } catch let error as URLError {
+            #if DEBUG
+            print("[SpeakUp] Network error while generating drill from \\(endpointURL.absoluteString): \\(error)")
+            #endif
+            throw AIServiceError.backend(message: "The app couldn't reach the AI service. Check your internet connection and try again.")
         } catch let error as AIServiceError {
             throw error
         } catch {
+            #if DEBUG
+            print("[SpeakUp] Unexpected drill generation error from \\(endpointURL.absoluteString): \\(error)")
+            #endif
             throw AIServiceError.unavailable
         }
     }
