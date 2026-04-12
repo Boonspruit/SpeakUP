@@ -6,6 +6,57 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8B529CDA2F8A190D00620425 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B529CBC2F8A190D00620425 /* Assets.xcassets */; };
+		8B529CDE2F8A190D00620425 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CC92F8A190D00620425 /* HomeView.swift */; };
+		8B529CDF2F8A190D00620425 /* SUDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CD42F8A190D00620425 /* SUDesignSystem.swift */; };
+		8B529CE22F8A190D00620425 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CB92F8A190D00620425 /* StorageService.swift */; };
+		8B529CE32F8A190D00620425 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CCC2F8A190D00620425 /* OnboardingView.swift */; };
+		8B529CE52F8A190D00620425 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CD02F8A190D00620425 /* ProfileView.swift */; };
+		8B529CE62F8A190D00620425 /* PracticeTheaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CCF2F8A190D00620425 /* PracticeTheaterView.swift */; };
+		8B529CE72F8A190D00620425 /* PracticeResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CCD2F8A190D00620425 /* PracticeResultView.swift */; };
+		8B529CE92F8A190D00620425 /* AudienceGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CC82F8A190D00620425 /* AudienceGridView.swift */; };
+		8B529CEB2F8A190D00620425 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CD22F8A190D00620425 /* StreakCardView.swift */; };
+		8B529CEC2F8A190D00620425 /* StreakService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CBA2F8A190D00620425 /* StreakService.swift */; };
+		8B529CED2F8A190D00620425 /* NotesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CCB2F8A190D00620425 /* NotesSheetView.swift */; };
+		8B529CEF2F8A190D00620425 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CCA2F8A190D00620425 /* LibraryView.swift */; };
+		8B529CF22F8A190D00620425 /* SUComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CD32F8A190D00620425 /* SUComponents.swift */; };
+		8B529CF32F8A190D00620425 /* SUProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CD52F8A190D00620425 /* SUProgressView.swift */; };
+		8B529CF42F8A190D00620425 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CD12F8A190D00620425 /* RootTabView.swift */; };
+		8B529CF52F8A190D00620425 /* PracticeSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529CCE2F8A190D00620425 /* PracticeSetupView.swift */; };
+		8B529D292F8A1EEF00620425 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D222F8A1EEF00620425 /* ProfileView.swift */; };
+		8B529D2A2F8A1EEF00620425 /* AudienceGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D1A2F8A1EEF00620425 /* AudienceGridView.swift */; };
+		8B529D2B2F8A1EEF00620425 /* SUComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D252F8A1EEF00620425 /* SUComponents.swift */; };
+		8B529D2C2F8A1EEF00620425 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D1E2F8A1EEF00620425 /* OnboardingView.swift */; };
+		8B529D2D2F8A1EEF00620425 /* SUProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D272F8A1EEF00620425 /* SUProgressView.swift */; };
+		8B529D2E2F8A1EEF00620425 /* StreakService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D142F8A1EEF00620425 /* StreakService.swift */; };
+		8B529D2F2F8A1EEF00620425 /* PracticeResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D1F2F8A1EEF00620425 /* PracticeResultView.swift */; };
+		8B529D302F8A1EEF00620425 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D132F8A1EEF00620425 /* StorageService.swift */; };
+		8B529D312F8A1EEF00620425 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D232F8A1EEF00620425 /* RootTabView.swift */; };
+		8B529D322F8A1EEF00620425 /* SpeakUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D0D2F8A1EEF00620425 /* SpeakUpApp.swift */; };
+		8B529D332F8A1EEF00620425 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D1B2F8A1EEF00620425 /* HomeView.swift */; };
+		8B529D342F8A1EEF00620425 /* PracticeTheaterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D212F8A1EEF00620425 /* PracticeTheaterView.swift */; };
+		8B529D352F8A1EEF00620425 /* SUDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D262F8A1EEF00620425 /* SUDesignSystem.swift */; };
+		8B529D362F8A1EEF00620425 /* PracticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D182F8A1EEF00620425 /* PracticeViewModel.swift */; };
+		8B529D372F8A1EEF00620425 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D242F8A1EEF00620425 /* StreakCardView.swift */; };
+		8B529D382F8A1EEF00620425 /* PracticeSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D202F8A1EEF00620425 /* PracticeSetupView.swift */; };
+		8B529D392F8A1EEF00620425 /* NotesSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D1D2F8A1EEF00620425 /* NotesSheetView.swift */; };
+		8B529D3A2F8A1EEF00620425 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D1C2F8A1EEF00620425 /* LibraryView.swift */; };
+		8B529D3B2F8A1EEF00620425 /* ScriptModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B529D112F8A1EEF00620425 /* ScriptModels.swift */; };
+		8B529D3C2F8A1EEF00620425 /* SeedScripts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B529D0F2F8A1EEF00620425 /* SeedScripts.json */; };
+		8B529D3D2F8A1EEF00620425 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B529D162F8A1EEF00620425 /* Assets.xcassets */; };
+		A1F4C10B4D36455F9E3A8B11 /* PracticeTheaterUIKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F4C10A4D36455F9E3A8B11 /* PracticeTheaterUIKitView.swift */; };
+		A1F4C10C4D36455F9E3A8B11 /* PracticeCompletionUIKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F4C1104D36455F9E3A8B11 /* PracticeCompletionUIKitView.swift */; };
+		A1F4C10D4D36455F9E3A8B11 /* CompletionModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F4C1114D36455F9E3A8B11 /* CompletionModels.swift */; };
+		A1F4C10E4D36455F9E3A8B11 /* speakup_fireworks.json in Resources */ = {isa = PBXBuildFile; fileRef = A1F4C1124D36455F9E3A8B11 /* speakup_fireworks.json */; };
+		A1F4C10F4D36455F9E3A8B11 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = A1F4C1134D36455F9E3A8B11 /* Lottie */; };
+		B3E7F1000A2147C7A0F10001 /* SpeechAnalysisModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7F1000A2147C7A0F20001 /* SpeechAnalysisModels.swift */; };
+		B3E7F1000A2147C7A0F10002 /* AudioRecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7F1000A2147C7A0F20002 /* AudioRecordingService.swift */; };
+		B3E7F1000A2147C7A0F10003 /* SpeechTranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7F1000A2147C7A0F20003 /* SpeechTranscriptionService.swift */; };
+		B3E7F1000A2147C7A0F10004 /* SpeechFeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7F1000A2147C7A0F20004 /* SpeechFeedbackService.swift */; };
+		B3E7F1000A2147C7A0F10005 /* SpeechPracticeAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7F1000A2147C7A0F20005 /* SpeechPracticeAnalysisService.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		8B529C2F2F898E9500620425 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,34 +75,65 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8B529C1F2F898E9300620425 /* SpeakUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeakUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B529C2E2F898E9500620425 /* SpeakUpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeakUpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B529C382F898E9600620425 /* SpeakUpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeakUpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B529CB92F8A190D00620425 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		8B529CBA2F8A190D00620425 /* StreakService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakService.swift; sourceTree = "<group>"; };
+		8B529CBC2F8A190D00620425 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8B529CC02F8A190D00620425 /* SpeakUp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SpeakUp.xcodeproj; sourceTree = "<group>"; };
+		8B529CC82F8A190D00620425 /* AudienceGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudienceGridView.swift; sourceTree = "<group>"; };
+		8B529CC92F8A190D00620425 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8B529CCA2F8A190D00620425 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		8B529CCB2F8A190D00620425 /* NotesSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesSheetView.swift; sourceTree = "<group>"; };
+		8B529CCC2F8A190D00620425 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		8B529CCD2F8A190D00620425 /* PracticeResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeResultView.swift; sourceTree = "<group>"; };
+		8B529CCE2F8A190D00620425 /* PracticeSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSetupView.swift; sourceTree = "<group>"; };
+		8B529CCF2F8A190D00620425 /* PracticeTheaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTheaterView.swift; sourceTree = "<group>"; };
+		8B529CD02F8A190D00620425 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		8B529CD12F8A190D00620425 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+		8B529CD22F8A190D00620425 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
+		8B529CD32F8A190D00620425 /* SUComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUComponents.swift; sourceTree = "<group>"; };
+		8B529CD42F8A190D00620425 /* SUDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUDesignSystem.swift; sourceTree = "<group>"; };
+		8B529CD52F8A190D00620425 /* SUProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUProgressView.swift; sourceTree = "<group>"; };
+		8B529CF72F8A198C00620425 /* SpeakUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeakUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B529CF82F8A198C00620425 /* SpeakUpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeakUpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B529CF92F8A198C00620425 /* SpeakUpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeakUpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B529D0D2F8A1EEF00620425 /* SpeakUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakUpApp.swift; sourceTree = "<group>"; };
+		8B529D0F2F8A1EEF00620425 /* SeedScripts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SeedScripts.json; sourceTree = "<group>"; };
+		8B529D112F8A1EEF00620425 /* ScriptModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptModels.swift; sourceTree = "<group>"; };
+		8B529D132F8A1EEF00620425 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		8B529D142F8A1EEF00620425 /* StreakService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakService.swift; sourceTree = "<group>"; };
+		8B529D162F8A1EEF00620425 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8B529D182F8A1EEF00620425 /* PracticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeViewModel.swift; sourceTree = "<group>"; };
+		8B529D1A2F8A1EEF00620425 /* AudienceGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudienceGridView.swift; sourceTree = "<group>"; };
+		8B529D1B2F8A1EEF00620425 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8B529D1C2F8A1EEF00620425 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		8B529D1D2F8A1EEF00620425 /* NotesSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesSheetView.swift; sourceTree = "<group>"; };
+		8B529D1E2F8A1EEF00620425 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		8B529D1F2F8A1EEF00620425 /* PracticeResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeResultView.swift; sourceTree = "<group>"; };
+		8B529D202F8A1EEF00620425 /* PracticeSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeSetupView.swift; sourceTree = "<group>"; };
+		8B529D212F8A1EEF00620425 /* PracticeTheaterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTheaterView.swift; sourceTree = "<group>"; };
+		8B529D222F8A1EEF00620425 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		8B529D232F8A1EEF00620425 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+		8B529D242F8A1EEF00620425 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
+		8B529D252F8A1EEF00620425 /* SUComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUComponents.swift; sourceTree = "<group>"; };
+		8B529D262F8A1EEF00620425 /* SUDesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUDesignSystem.swift; sourceTree = "<group>"; };
+		8B529D272F8A1EEF00620425 /* SUProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUProgressView.swift; sourceTree = "<group>"; };
+		A1F4C10A4D36455F9E3A8B11 /* PracticeTheaterUIKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeTheaterUIKitView.swift; sourceTree = "<group>"; };
+		A1F4C1104D36455F9E3A8B11 /* PracticeCompletionUIKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeCompletionUIKitView.swift; sourceTree = "<group>"; };
+		A1F4C1114D36455F9E3A8B11 /* CompletionModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionModels.swift; sourceTree = "<group>"; };
+		A1F4C1124D36455F9E3A8B11 /* speakup_fireworks.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = speakup_fireworks.json; sourceTree = "<group>"; };
+		B3E7F1000A2147C7A0F20001 /* SpeechAnalysisModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAnalysisModels.swift; sourceTree = "<group>"; };
+		B3E7F1000A2147C7A0F20002 /* AudioRecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecordingService.swift; sourceTree = "<group>"; };
+		B3E7F1000A2147C7A0F20003 /* SpeechTranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechTranscriptionService.swift; sourceTree = "<group>"; };
+		B3E7F1000A2147C7A0F20004 /* SpeechFeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechFeedbackService.swift; sourceTree = "<group>"; };
+		B3E7F1000A2147C7A0F20005 /* SpeechPracticeAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechPracticeAnalysisService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		8B529C212F898E9300620425 /* SpeakUp */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SpeakUp;
-			sourceTree = "<group>";
-		};
-		8B529C312F898E9500620425 /* SpeakUpTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SpeakUpTests;
-			sourceTree = "<group>";
-		};
-		8B529C3B2F898E9600620425 /* SpeakUpUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SpeakUpUITests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		8B529C1C2F898E9300620425 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1F4C10F4D36455F9E3A8B11 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,21 +157,143 @@
 		8B529C162F898E9300620425 = {
 			isa = PBXGroup;
 			children = (
-				8B529C212F898E9300620425 /* SpeakUp */,
-				8B529C312F898E9500620425 /* SpeakUpTests */,
-				8B529C3B2F898E9600620425 /* SpeakUpUITests */,
-				8B529C202F898E9300620425 /* Products */,
+				8B529D0E2F8A1EEF00620425 /* App */,
+				8B529D102F8A1EEF00620425 /* Data */,
+				8B529D122F8A1EEF00620425 /* Models */,
+				8B529D152F8A1EEF00620425 /* Services */,
+				8B529D172F8A1EEF00620425 /* SpeakUp */,
+				8B529D192F8A1EEF00620425 /* ViewModels */,
+				8B529D282F8A1EEF00620425 /* Views */,
+				8B529CBB2F8A190D00620425 /* Services */,
+				8B529CBF2F8A190D00620425 /* SpeakUp */,
+				8B529CC02F8A190D00620425 /* SpeakUp.xcodeproj */,
+				8B529CD62F8A190D00620425 /* Views */,
+				8B529CF72F8A198C00620425 /* SpeakUp.app */,
+				8B529CF82F8A198C00620425 /* SpeakUpTests.xctest */,
+				8B529CF92F8A198C00620425 /* SpeakUpUITests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
-		8B529C202F898E9300620425 /* Products */ = {
+		8B529CBB2F8A190D00620425 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8B529C1F2F898E9300620425 /* SpeakUp.app */,
-				8B529C2E2F898E9500620425 /* SpeakUpTests.xctest */,
-				8B529C382F898E9600620425 /* SpeakUpUITests.xctest */,
+				8B529CB92F8A190D00620425 /* StorageService.swift */,
+				8B529CBA2F8A190D00620425 /* StreakService.swift */,
 			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8B529CBF2F8A190D00620425 /* SpeakUp */ = {
+			isa = PBXGroup;
+			children = (
+				8B529CBC2F8A190D00620425 /* Assets.xcassets */,
+			);
+			path = SpeakUp;
+			sourceTree = "<group>";
+		};
+		8B529CD62F8A190D00620425 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8B529CC82F8A190D00620425 /* AudienceGridView.swift */,
+				8B529CC92F8A190D00620425 /* HomeView.swift */,
+				8B529CCA2F8A190D00620425 /* LibraryView.swift */,
+				8B529CCB2F8A190D00620425 /* NotesSheetView.swift */,
+				8B529CCC2F8A190D00620425 /* OnboardingView.swift */,
+				8B529CCD2F8A190D00620425 /* PracticeResultView.swift */,
+				8B529CCE2F8A190D00620425 /* PracticeSetupView.swift */,
+				8B529CCF2F8A190D00620425 /* PracticeTheaterView.swift */,
+				8B529CD02F8A190D00620425 /* ProfileView.swift */,
+				8B529CD12F8A190D00620425 /* RootTabView.swift */,
+				8B529CD22F8A190D00620425 /* StreakCardView.swift */,
+				8B529CD32F8A190D00620425 /* SUComponents.swift */,
+				8B529CD42F8A190D00620425 /* SUDesignSystem.swift */,
+				8B529CD52F8A190D00620425 /* SUProgressView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8B529CD72F8A190D00620425 /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8B529D0E2F8A1EEF00620425 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8B529D0D2F8A1EEF00620425 /* SpeakUpApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		8B529D102F8A1EEF00620425 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8B529D0F2F8A1EEF00620425 /* SeedScripts.json */,
+				A1F4C1124D36455F9E3A8B11 /* speakup_fireworks.json */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8B529D122F8A1EEF00620425 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A1F4C1114D36455F9E3A8B11 /* CompletionModels.swift */,
+				8B529D112F8A1EEF00620425 /* ScriptModels.swift */,
+				B3E7F1000A2147C7A0F20001 /* SpeechAnalysisModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8B529D152F8A1EEF00620425 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B3E7F1000A2147C7A0F20002 /* AudioRecordingService.swift */,
+				B3E7F1000A2147C7A0F20004 /* SpeechFeedbackService.swift */,
+				B3E7F1000A2147C7A0F20005 /* SpeechPracticeAnalysisService.swift */,
+				B3E7F1000A2147C7A0F20003 /* SpeechTranscriptionService.swift */,
+				8B529D132F8A1EEF00620425 /* StorageService.swift */,
+				8B529D142F8A1EEF00620425 /* StreakService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8B529D172F8A1EEF00620425 /* SpeakUp */ = {
+			isa = PBXGroup;
+			children = (
+				8B529D162F8A1EEF00620425 /* Assets.xcassets */,
+			);
+			path = SpeakUp;
+			sourceTree = "<group>";
+		};
+		8B529D192F8A1EEF00620425 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8B529D182F8A1EEF00620425 /* PracticeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8B529D282F8A1EEF00620425 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8B529D1A2F8A1EEF00620425 /* AudienceGridView.swift */,
+				8B529D1B2F8A1EEF00620425 /* HomeView.swift */,
+				8B529D1C2F8A1EEF00620425 /* LibraryView.swift */,
+				8B529D1D2F8A1EEF00620425 /* NotesSheetView.swift */,
+				8B529D1E2F8A1EEF00620425 /* OnboardingView.swift */,
+				8B529D1F2F8A1EEF00620425 /* PracticeResultView.swift */,
+				8B529D202F8A1EEF00620425 /* PracticeSetupView.swift */,
+				8B529D212F8A1EEF00620425 /* PracticeTheaterView.swift */,
+				A1F4C1104D36455F9E3A8B11 /* PracticeCompletionUIKitView.swift */,
+				A1F4C10A4D36455F9E3A8B11 /* PracticeTheaterUIKitView.swift */,
+				8B529D222F8A1EEF00620425 /* ProfileView.swift */,
+				8B529D232F8A1EEF00620425 /* RootTabView.swift */,
+				8B529D242F8A1EEF00620425 /* StreakCardView.swift */,
+				8B529D252F8A1EEF00620425 /* SUComponents.swift */,
+				8B529D262F8A1EEF00620425 /* SUDesignSystem.swift */,
+				8B529D272F8A1EEF00620425 /* SUProgressView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,14 +311,12 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				8B529C212F898E9300620425 /* SpeakUp */,
-			);
 			name = SpeakUp;
 			packageProductDependencies = (
+				A1F4C1134D36455F9E3A8B11 /* Lottie */,
 			);
 			productName = SpeakUp;
-			productReference = 8B529C1F2F898E9300620425 /* SpeakUp.app */;
+			productReference = 8B529CF72F8A198C00620425 /* SpeakUp.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8B529C2D2F898E9500620425 /* SpeakUpTests */ = {
@@ -130,14 +332,11 @@
 			dependencies = (
 				8B529C302F898E9500620425 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				8B529C312F898E9500620425 /* SpeakUpTests */,
-			);
 			name = SpeakUpTests;
 			packageProductDependencies = (
 			);
 			productName = SpeakUpTests;
-			productReference = 8B529C2E2F898E9500620425 /* SpeakUpTests.xctest */;
+			productReference = 8B529CF82F8A198C00620425 /* SpeakUpTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		8B529C372F898E9600620425 /* SpeakUpUITests */ = {
@@ -153,14 +352,11 @@
 			dependencies = (
 				8B529C3A2F898E9600620425 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				8B529C3B2F898E9600620425 /* SpeakUpUITests */,
-			);
 			name = SpeakUpUITests;
 			packageProductDependencies = (
 			);
 			productName = SpeakUpUITests;
-			productReference = 8B529C382F898E9600620425 /* SpeakUpUITests.xctest */;
+			productReference = 8B529CF92F8A198C00620425 /* SpeakUpUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -196,8 +392,17 @@
 			mainGroup = 8B529C162F898E9300620425;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 8B529C202F898E9300620425 /* Products */;
+			productRefGroup = 8B529C162F898E9300620425;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8B529CD72F8A190D00620425 /* Products */;
+					ProjectRef = 8B529CC02F8A190D00620425 /* SpeakUp.xcodeproj */;
+				},
+			);
+			packageReferences = (
+				A1F4C1144D36455F9E3A8B11 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			projectRoot = "";
 			targets = (
 				8B529C1E2F898E9300620425 /* SpeakUp */,
@@ -212,6 +417,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1F4C10E4D36455F9E3A8B11 /* speakup_fireworks.json in Resources */,
+				8B529CDA2F8A190D00620425 /* Assets.xcassets in Resources */,
+				8B529D3C2F8A1EEF00620425 /* SeedScripts.json in Resources */,
+				8B529D3D2F8A1EEF00620425 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +445,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3E7F1000A2147C7A0F10005 /* SpeechPracticeAnalysisService.swift in Sources */,
+				B3E7F1000A2147C7A0F10004 /* SpeechFeedbackService.swift in Sources */,
+				B3E7F1000A2147C7A0F10003 /* SpeechTranscriptionService.swift in Sources */,
+				B3E7F1000A2147C7A0F10002 /* AudioRecordingService.swift in Sources */,
+				B3E7F1000A2147C7A0F10001 /* SpeechAnalysisModels.swift in Sources */,
+				A1F4C10D4D36455F9E3A8B11 /* CompletionModels.swift in Sources */,
+				A1F4C10C4D36455F9E3A8B11 /* PracticeCompletionUIKitView.swift in Sources */,
+				A1F4C10B4D36455F9E3A8B11 /* PracticeTheaterUIKitView.swift in Sources */,
+				8B529CDE2F8A190D00620425 /* HomeView.swift in Sources */,
+				8B529CDF2F8A190D00620425 /* SUDesignSystem.swift in Sources */,
+				8B529CE22F8A190D00620425 /* StorageService.swift in Sources */,
+				8B529CE32F8A190D00620425 /* OnboardingView.swift in Sources */,
+				8B529CE52F8A190D00620425 /* ProfileView.swift in Sources */,
+				8B529CE62F8A190D00620425 /* PracticeTheaterView.swift in Sources */,
+				8B529CE72F8A190D00620425 /* PracticeResultView.swift in Sources */,
+				8B529CE92F8A190D00620425 /* AudienceGridView.swift in Sources */,
+				8B529D292F8A1EEF00620425 /* ProfileView.swift in Sources */,
+				8B529D2A2F8A1EEF00620425 /* AudienceGridView.swift in Sources */,
+				8B529D2B2F8A1EEF00620425 /* SUComponents.swift in Sources */,
+				8B529D2C2F8A1EEF00620425 /* OnboardingView.swift in Sources */,
+				8B529D2D2F8A1EEF00620425 /* SUProgressView.swift in Sources */,
+				8B529D2E2F8A1EEF00620425 /* StreakService.swift in Sources */,
+				8B529D2F2F8A1EEF00620425 /* PracticeResultView.swift in Sources */,
+				8B529D302F8A1EEF00620425 /* StorageService.swift in Sources */,
+				8B529D312F8A1EEF00620425 /* RootTabView.swift in Sources */,
+				8B529D322F8A1EEF00620425 /* SpeakUpApp.swift in Sources */,
+				8B529D332F8A1EEF00620425 /* HomeView.swift in Sources */,
+				8B529D342F8A1EEF00620425 /* PracticeTheaterView.swift in Sources */,
+				8B529D352F8A1EEF00620425 /* SUDesignSystem.swift in Sources */,
+				8B529D362F8A1EEF00620425 /* PracticeViewModel.swift in Sources */,
+				8B529D372F8A1EEF00620425 /* StreakCardView.swift in Sources */,
+				8B529D382F8A1EEF00620425 /* PracticeSetupView.swift in Sources */,
+				8B529D392F8A1EEF00620425 /* NotesSheetView.swift in Sources */,
+				8B529D3A2F8A1EEF00620425 /* LibraryView.swift in Sources */,
+				8B529D3B2F8A1EEF00620425 /* ScriptModels.swift in Sources */,
+				8B529CEB2F8A190D00620425 /* StreakCardView.swift in Sources */,
+				8B529CEC2F8A190D00620425 /* StreakService.swift in Sources */,
+				8B529CED2F8A190D00620425 /* NotesSheetView.swift in Sources */,
+				8B529CEF2F8A190D00620425 /* LibraryView.swift in Sources */,
+				8B529CF22F8A190D00620425 /* SUComponents.swift in Sources */,
+				8B529CF32F8A190D00620425 /* SUProgressView.swift in Sources */,
+				8B529CF42F8A190D00620425 /* RootTabView.swift in Sources */,
+				8B529CF52F8A190D00620425 /* PracticeSetupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +519,25 @@
 			targetProxy = 8B529C392F898E9600620425 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A1F4C1144D36455F9E3A8B11 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A1F4C1134D36455F9E3A8B11 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1F4C1144D36455F9E3A8B11 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8B529C402F898E9600620425 /* Debug */ = {
@@ -395,13 +666,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NY34D8S35R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_SpeakUpDrillGenerationEndpoint = "http://127.0.0.1:8787/generate-drill";
+				INFOPLIST_KEY_SpeakUpFeedbackEndpoint = "http://127.0.0.1:8787/speech-feedback";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "SpeakUp records your speaking drills so you can review your progress.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "SpeakUp transcribes your speaking drills to create supportive feedback.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -426,13 +703,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NY34D8S35R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_SpeakUpDrillGenerationEndpoint = "";
+				INFOPLIST_KEY_SpeakUpFeedbackEndpoint = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "SpeakUp records your speaking drills so you can review your progress.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "SpeakUp transcribes your speaking drills to create supportive feedback.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

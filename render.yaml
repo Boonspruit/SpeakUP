@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: speakup-backend
+    runtime: node
+    rootDir: backend
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash-lite
+      - key: PORT
+        value: 10000
