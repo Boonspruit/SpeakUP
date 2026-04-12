@@ -128,32 +128,37 @@ app.post("/generate-drill", async (req, res) => {
   const similarToDrillTitle = stringOr(body.similarToDrillTitle, "");
 
   try {
-    const prompt = [
-      "Create one SpeakUp speaking drill.",
-      "The app is a supportive public speaking practice app for iPhone.",
-      "Return JSON only.",
-      `Focus track: ${focusTrack}.`,
-      `Difficulty: ${difficulty}.`,
-      `Target duration: ${targetDurationSec} seconds.`,
-      `Tone: ${tone}.`,
-      seedScenario ? `Seed scenario: ${seedScenario}.` : "",
-      similarToDrillTitle ? `Make it feel related to this drill title, but not a copy: ${similarToDrillTitle}.` : "",
-      "Keep it practical, realistic, and easy to practice aloud.",
-      "The sections should feel like a natural speaking script, not bullet fragments.",
-      "Make the coaching goal and focus hint short and concrete."
-    ].filter(Boolean).join("\n");
+    const prompt = buildDrillPrompt({
+      focusTrack,
+      difficulty,
+      targetDurationSec,
+      tone,
+      seedScenario,
+      similarToDrillTitle,
+      retryOnOutline: false
+    });
 
-    const generated = await generateStructuredJson({
+    let generated = await generateStructuredJson({
       prompt,
-      systemInstruction: [
-        "You write short public speaking drills for SpeakUp.",
-        "You must stay supportive, practical, and concise.",
-        "Never include unsafe, hateful, sexual, medical, legal, or political persuasion content.",
-        "Never mention AI or that the drill was generated.",
-        "Return only valid JSON."
-      ].join(" "),
+      systemInstruction: buildDrillSystemInstruction(),
       schema: drillSchema
     });
+
+    if (looksLikeOutlineDrill(generated, targetDurationSec)) {
+      generated = await generateStructuredJson({
+        prompt: buildDrillPrompt({
+          focusTrack,
+          difficulty,
+          targetDurationSec,
+          tone,
+          seedScenario,
+          similarToDrillTitle,
+          retryOnOutline: true
+        }),
+        systemInstruction: buildDrillSystemInstruction(),
+        schema: drillSchema
+      });
+    }
 
     const response = normalizeDrillResponse(generated, {
       focusTrack,
@@ -161,6 +166,10 @@ app.post("/generate-drill", async (req, res) => {
       targetDurationSec,
       tone
     });
+
+    if (looksLikeOutlineDrill(response, targetDurationSec)) {
+      throw new Error("Generated drill was still an outline instead of spoken rehearsal copy.");
+    }
 
     return res.json(response);
   } catch (error) {
@@ -280,13 +289,118 @@ function normalizeDrillResponse(raw, defaults) {
     coachingGoal: stringOr(raw.coachingGoal, "Practice sounding clear and confident."),
     focusHint: stringOr(raw.focusHint, "Keep your pace steady and your delivery natural."),
     sections: {
-      opening: stringOr(raw.sections?.opening, "Open with a clear first line."),
-      point_1: stringOr(raw.sections?.point_1, "Make your first supporting point."),
-      point_2: stringOr(raw.sections?.point_2, "Add a second supporting point."),
-      point_3: stringOr(raw.sections?.point_3, "Finish your final supporting point."),
-      closing: stringOr(raw.sections?.closing, "Close with a confident ending.")
+      opening: stringOr(raw.sections?.opening, "Thanks for being here today. I want to share one short example that shows how I handle this kind of moment."),
+      point_1: stringOr(raw.sections?.point_1, "The situation was challenging at first, so I focused on staying clear, calm, and specific about what needed to happen next."),
+      point_2: stringOr(raw.sections?.point_2, "I broke the problem into a few simple steps, communicated the priorities, and kept people aligned as we moved forward."),
+      point_3: stringOr(raw.sections?.point_3, "That approach helped the conversation feel more confident and practical, and it made the result easier for everyone to follow."),
+      closing: stringOr(raw.sections?.closing, "That experience reminded me that clear communication builds trust, especially when the stakes feel high.")
     }
   };
+}
+
+function buildDrillSystemInstruction() {
+  return [
+    "You write short public speaking drills for SpeakUp.",
+    "You must stay supportive, practical, concise, and realistic.",
+    "Every section must contain exact words the user can say out loud.",
+    "Write in natural spoken language, usually first person, as if this were cue-card copy for rehearsal.",
+    "Do not write instructions, labels, placeholders, or coaching commands.",
+    "Never write phrases such as 'open with', 'say', 'mention', 'talk about', 'make your point', 'add a point', 'close with', or 'finish by'.",
+    "Never include unsafe, hateful, sexual, medical, legal, or political persuasion content.",
+    "Never mention AI or that the drill was generated.",
+    "Return only valid JSON."
+  ].join(" ");
+}
+
+function buildDrillPrompt({
+  focusTrack,
+  difficulty,
+  targetDurationSec,
+  tone,
+  seedScenario,
+  similarToDrillTitle,
+  retryOnOutline
+}) {
+  const wordRange = targetWordRange(targetDurationSec);
+  return [
+    "Create one SpeakUp speaking drill.",
+    "The app is a supportive public speaking practice app for iPhone.",
+    "Return JSON only.",
+    `Focus track: ${focusTrack}.`,
+    `Difficulty: ${difficulty}.`,
+    `Target duration: ${targetDurationSec} seconds.`,
+    `Tone: ${tone}.`,
+    seedScenario ? `Seed scenario: ${seedScenario}.` : "",
+    similarToDrillTitle ? `Make it feel related to this drill title, but not a copy: ${similarToDrillTitle}.` : "",
+    `Write approximately ${wordRange.min}-${wordRange.max} total words across the five sections.`,
+    "The script must be actual rehearsal copy the user can read aloud immediately.",
+    "Each section should contain 1-3 complete spoken sentences, not bullets or instructions.",
+    "Write concrete lines with real content, not abstract placeholders.",
+    "Good example for a section: 'Thanks for being here today. I want to share a quick update on what changed this week.'",
+    "Bad example for a section: 'Open with a strong first line.'",
+    "Bad example for a section: 'Mention your first supporting point.'",
+    "Make the coaching goal and focus hint short and concrete.",
+    retryOnOutline
+      ? "Important: your previous answer sounded like an outline. Rewrite every section as literal spoken words someone can rehearse verbatim."
+      : ""
+  ].filter(Boolean).join("\n");
+}
+
+function targetWordRange(durationSec) {
+  switch (normalizeDuration(durationSec)) {
+    case 30:
+      return { min: 45, max: 75 };
+    case 90:
+      return { min: 120, max: 170 };
+    case 60:
+    default:
+      return { min: 80, max: 125 };
+  }
+}
+
+function looksLikeOutlineDrill(drill, targetDurationSec) {
+  const sections = [
+    drill?.sections?.opening,
+    drill?.sections?.point_1,
+    drill?.sections?.point_2,
+    drill?.sections?.point_3,
+    drill?.sections?.closing
+  ]
+    .map((value) => String(value || "").trim())
+    .filter(Boolean);
+
+  if (sections.length < 5) return true;
+
+  const combined = sections.join(" ").toLowerCase();
+  const instructionPatterns = [
+    "open with",
+    "start with",
+    "close with",
+    "end with",
+    "finish with",
+    "finish your",
+    "make your first",
+    "make your point",
+    "add a second",
+    "supporting point",
+    "mention ",
+    "talk about ",
+    "say why",
+    "explain how"
+  ];
+
+  if (instructionPatterns.some((pattern) => combined.includes(pattern))) {
+    return true;
+  }
+
+  const totalWords = combined.split(/\s+/).filter(Boolean).length;
+  const wordRange = targetWordRange(targetDurationSec);
+  if (totalWords < wordRange.min) {
+    return true;
+  }
+
+  const averageWordsPerSection = totalWords / sections.length;
+  return averageWordsPerSection < 10;
 }
 
 function normalizeFocusTrack(value) {
