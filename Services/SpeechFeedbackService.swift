@@ -1,5 +1,30 @@
 import Foundation
 
+struct AIBackendErrorResponse: Decodable {
+    let error: String
+    let code: String?
+    let userMessage: String?
+    let retryable: Bool?
+    let detail: String?
+}
+
+enum AIServiceError: LocalizedError {
+    case backend(message: String)
+    case decoding
+    case unavailable
+
+    var errorDescription: String? {
+        switch self {
+        case let .backend(message):
+            return message
+        case .decoding:
+            return "The backend returned an unexpected response. Check the server logs and try again."
+        case .unavailable:
+            return "The AI service is unavailable right now. Please try again shortly."
+        }
+    }
+}
+
 final class SpeechFeedbackService {
     private let session: URLSession
     private let endpointURL: URL?
@@ -63,8 +88,8 @@ final class SpeechFeedbackService {
         )
     }
 
-    func requestRemoteFeedback(_ requestBody: SpeechFeedbackRequest) async -> PracticeSpeechFeedback? {
-        guard let endpointURL else { return nil }
+    func requestRemoteFeedback(_ requestBody: SpeechFeedbackRequest) async throws -> PracticeSpeechFeedback {
+        guard let endpointURL else { throw AIServiceError.unavailable }
 
         var request = URLRequest(url: endpointURL)
         request.httpMethod = "POST"
@@ -73,8 +98,11 @@ final class SpeechFeedbackService {
         do {
             request.httpBody = try JSONEncoder().encode(requestBody)
             let (data, response) = try await session.data(for: request)
-            guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-                return nil
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw AIServiceError.unavailable
+            }
+            guard (200..<300).contains(httpResponse.statusCode) else {
+                throw Self.decodeBackendError(from: data)
             }
 
             let feedbackResponse = try JSONDecoder().decode(SpeechFeedbackResponse.self, from: data)
@@ -84,8 +112,10 @@ final class SpeechFeedbackService {
                 claritySummary: feedbackResponse.claritySummary,
                 source: .remote
             )
+        } catch let error as AIServiceError {
+            throw error
         } catch {
-            return nil
+            throw AIServiceError.unavailable
         }
     }
 
@@ -110,25 +140,30 @@ final class DrillGenerationService {
         self.endpointURL = endpointURL
     }
 
-    func generateDrill(from requestBody: DrillGenerationRequest) async -> Script? {
-        if let endpointURL {
-            var request = URLRequest(url: endpointURL)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    func generateDrill(from requestBody: DrillGenerationRequest) async throws -> Script {
+        guard let endpointURL else { throw AIServiceError.unavailable }
 
-            do {
-                request.httpBody = try JSONEncoder().encode(requestBody)
-                let (data, response) = try await session.data(for: request)
-                if let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) {
-                    let responseBody = try JSONDecoder().decode(DrillGenerationResponse.self, from: data)
-                    return makeGeneratedScript(from: responseBody, requestBody: requestBody)
-                }
-            } catch {
-                return nil
+        var request = URLRequest(url: endpointURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        do {
+            request.httpBody = try JSONEncoder().encode(requestBody)
+            let (data, response) = try await session.data(for: request)
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw AIServiceError.unavailable
             }
-        }
+            guard (200..<300).contains(httpResponse.statusCode) else {
+                throw SpeechFeedbackService.decodeBackendError(from: data)
+            }
 
-        return nil
+            let responseBody = try JSONDecoder().decode(DrillGenerationResponse.self, from: data)
+            return makeGeneratedScript(from: responseBody, requestBody: requestBody)
+        } catch let error as AIServiceError {
+            throw error
+        } catch {
+            throw AIServiceError.unavailable
+        }
     }
 
     private func makeGeneratedScript(from response: DrillGenerationResponse, requestBody: DrillGenerationRequest) -> Script {
@@ -161,5 +196,14 @@ final class DrillGenerationService {
         }
 
         return URL(string: endpoint)
+    }
+}
+
+private extension SpeechFeedbackService {
+    static func decodeBackendError(from data: Data) -> AIServiceError {
+        if let backendError = try? JSONDecoder().decode(AIBackendErrorResponse.self, from: data) {
+            return .backend(message: backendError.userMessage ?? backendError.error)
+        }
+        return .decoding
     }
 }

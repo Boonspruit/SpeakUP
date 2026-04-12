@@ -6,7 +6,7 @@ import { GoogleGenAI } from "@google/genai";
 dotenv.config();
 
 const PORT = Number(process.env.PORT || 8787);
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash-lite";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 const app = express();
@@ -98,7 +98,13 @@ app.get("/health", (_req, res) => {
 
 app.post("/generate-drill", async (req, res) => {
   if (!ai) {
-    return res.status(500).json({ error: "Gemini API key is not configured on the backend." });
+    return sendAIErrorResponse(res, {
+      status: 500,
+      code: "gemini_not_configured",
+      error: "Gemini API key is not configured on the backend.",
+      userMessage: "AI drill generation isn't configured on the backend yet.",
+      retryable: false
+    });
   }
 
   const body = req.body ?? {};
@@ -146,16 +152,19 @@ app.post("/generate-drill", async (req, res) => {
 
     return res.json(response);
   } catch (error) {
-    return res.status(500).json({
-      error: "Failed to generate drill.",
-      detail: error instanceof Error ? error.message : "Unknown error"
-    });
+    return sendAIErrorResponse(res, normalizeAIError(error, "generate_drill"));
   }
 });
 
 app.post("/speech-feedback", async (req, res) => {
   if (!ai) {
-    return res.status(500).json({ error: "Gemini API key is not configured on the backend." });
+    return sendAIErrorResponse(res, {
+      status: 500,
+      code: "gemini_not_configured",
+      error: "Gemini API key is not configured on the backend.",
+      userMessage: "AI feedback isn't configured on the backend yet.",
+      retryable: false
+    });
   }
 
   const body = req.body ?? {};
@@ -205,10 +214,7 @@ app.post("/speech-feedback", async (req, res) => {
       claritySummary: stringOr(feedback.claritySummary, "Steady")
     });
   } catch (error) {
-    return res.status(500).json({
-      error: "Failed to generate speech feedback.",
-      detail: error instanceof Error ? error.message : "Unknown error"
-    });
+    return sendAIErrorResponse(res, normalizeAIError(error, "speech_feedback"));
   }
 });
 
@@ -303,4 +309,58 @@ function stringOr(value, fallback) {
 function numberOr(value, fallback) {
   const numeric = Number(value);
   return Number.isFinite(numeric) ? numeric : fallback;
+}
+
+function sendAIErrorResponse(res, errorInfo) {
+  return res.status(errorInfo.status).json({
+    error: errorInfo.error,
+    code: errorInfo.code,
+    userMessage: errorInfo.userMessage,
+    retryable: errorInfo.retryable,
+    detail: errorInfo.detail
+  });
+}
+
+function normalizeAIError(error, route) {
+  const detail = error instanceof Error ? error.message : String(error ?? "Unknown error");
+  const lower = detail.toLowerCase();
+
+  if (
+    lower.includes("429 too many requests") ||
+    lower.includes("resource_exhausted") ||
+    lower.includes("quota exceeded")
+  ) {
+    return {
+      status: 429,
+      code: "quota_exceeded",
+      error: route === "generate_drill" ? "Failed to generate drill." : "Failed to generate speech feedback.",
+      userMessage: "AI requests are temporarily unavailable because the Gemini account hit a billing or quota limit. Check Google AI billing and quotas, then try again.",
+      retryable: true,
+      detail
+    };
+  }
+
+  if (
+    lower.includes("404 not found") ||
+    lower.includes("no longer available to new users") ||
+    (lower.includes("model") && lower.includes("not found"))
+  ) {
+    return {
+      status: 503,
+      code: "model_unavailable",
+      error: route === "generate_drill" ? "Failed to generate drill." : "Failed to generate speech feedback.",
+      userMessage: `The configured Gemini model (${GEMINI_MODEL}) isn't available for this account. Update GEMINI_MODEL in Render to a supported model and redeploy.`,
+      retryable: false,
+      detail
+    };
+  }
+
+  return {
+    status: 502,
+    code: "provider_error",
+    error: route === "generate_drill" ? "Failed to generate drill." : "Failed to generate speech feedback.",
+    userMessage: "The AI provider returned an unexpected error. Check your backend logs and Gemini configuration, then try again.",
+    retryable: true,
+    detail
+  };
 }

@@ -89,20 +89,24 @@ final class SpeechPracticeAnalysisService {
         )
         let fillerWordCount = analysis.metrics.fillerBreakdown.values.reduce(0, +)
 
-        return await feedbackService.requestRemoteFeedback(
-            SpeechFeedbackRequest(
-                transcript: analysis.transcript,
-                durationSeconds: durationSeconds,
-                wordsPerMinute: wordsPerMinute,
-                fillerWordCount: fillerWordCount,
-                pauseCount: analysis.metrics.pauseCount,
-                averagePauseDuration: analysis.metrics.averagePauseDuration,
-                practiceMode: mode.rawValue,
-                focusTrack: drill?.focusTrack.rawValue,
-                drillTitle: drill?.title,
-                drillScenario: drill?.scenario
+        do {
+            return try await feedbackService.requestRemoteFeedback(
+                SpeechFeedbackRequest(
+                    transcript: analysis.transcript,
+                    durationSeconds: durationSeconds,
+                    wordsPerMinute: wordsPerMinute,
+                    fillerWordCount: fillerWordCount,
+                    pauseCount: analysis.metrics.pauseCount,
+                    averagePauseDuration: analysis.metrics.averagePauseDuration,
+                    practiceMode: mode.rawValue,
+                    focusTrack: drill?.focusTrack.rawValue,
+                    drillTitle: drill?.title,
+                    drillScenario: drill?.scenario
+                )
             )
-        )
+        } catch {
+            return nil
+        }
     }
 
     static func makeMetrics(transcript: String, segments: [SpeechTranscriptSegment]) -> PracticeSpeechMetrics {

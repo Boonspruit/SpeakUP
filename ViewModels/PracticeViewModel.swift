@@ -108,15 +108,20 @@ final class PracticeViewModel: ObservableObject {
             similarToDrillTitle: script?.title
         )
 
-        guard let generatedDrill = await drillGenerationService.generateDrill(from: request) else {
-            generationErrorMessage = "We couldn't generate a new drill right now. Check that your Gemini backend is running and try again."
+        do {
+            let generatedDrill = try await drillGenerationService.generateDrill(from: request)
+            StorageService.shared.upsertGeneratedDrill(generatedDrill)
+            refreshScripts(preserveSelection: false)
+            prepareDrill(generatedDrill)
+            generatedDrillPreview = generatedDrill
+            return generatedDrill
+        } catch let error as AIServiceError {
+            generationErrorMessage = error.errorDescription
+            return nil
+        } catch {
+            generationErrorMessage = "We couldn't generate a new drill right now. The AI service returned an unexpected error."
             return nil
         }
-        StorageService.shared.upsertGeneratedDrill(generatedDrill)
-        refreshScripts(preserveSelection: false)
-        prepareDrill(generatedDrill)
-        generatedDrillPreview = generatedDrill
-        return generatedDrill
     }
 
     // MARK: - Practice Lifecycle

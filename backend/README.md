@@ -12,14 +12,15 @@ It is designed so the iPhone app never ships a Gemini API key. The app talks to 
 1. Install Node.js 20+.
 2. Copy `.env.example` to `.env`.
 3. Add your `GEMINI_API_KEY`.
-4. Install dependencies:
+4. Set `GEMINI_MODEL` if you want to override the default. The current default is `gemini-2.5-flash-lite`.
+5. Install dependencies:
 
 ```bash
 cd backend
 npm install
 ```
 
-5. Start the server:
+6. Start the server:
 
 ```bash
 npm run dev
