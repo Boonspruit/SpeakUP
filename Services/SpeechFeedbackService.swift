@@ -1,5 +1,22 @@
 import Foundation
 
+private enum SpeakUpAIEndpoints {
+    static let defaultDrillGeneration = "https://speakup-backend-6b4j.onrender.com/generate-drill"
+    static let defaultFeedback = "https://speakup-backend-6b4j.onrender.com/speech-feedback"
+
+    static func resolveURL(infoPlistKey: String, fallback: String) -> URL? {
+        if
+            let endpoint = Bundle.main.object(forInfoDictionaryKey: infoPlistKey) as? String,
+            !endpoint.isEmpty,
+            let url = URL(string: endpoint)
+        {
+            return url
+        }
+
+        return URL(string: fallback)
+    }
+}
+
 struct AIBackendErrorResponse: Decodable {
     let error: String
     let code: String?
@@ -137,14 +154,10 @@ final class SpeechFeedbackService {
     }
 
     private static func defaultEndpointURL() -> URL? {
-        guard
-            let endpoint = Bundle.main.object(forInfoDictionaryKey: "SpeakUpFeedbackEndpoint") as? String,
-            !endpoint.isEmpty
-        else {
-            return nil
-        }
-
-        return URL(string: endpoint)
+        SpeakUpAIEndpoints.resolveURL(
+            infoPlistKey: "SpeakUpFeedbackEndpoint",
+            fallback: SpeakUpAIEndpoints.defaultFeedback
+        )
     }
 }
 
@@ -224,14 +237,10 @@ final class DrillGenerationService {
     }
 
     private static func defaultEndpointURL() -> URL? {
-        guard
-            let endpoint = Bundle.main.object(forInfoDictionaryKey: "SpeakUpDrillGenerationEndpoint") as? String,
-            !endpoint.isEmpty
-        else {
-            return nil
-        }
-
-        return URL(string: endpoint)
+        SpeakUpAIEndpoints.resolveURL(
+            infoPlistKey: "SpeakUpDrillGenerationEndpoint",
+            fallback: SpeakUpAIEndpoints.defaultDrillGeneration
+        )
     }
 }
 
