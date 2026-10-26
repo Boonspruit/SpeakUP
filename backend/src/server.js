@@ -290,7 +290,7 @@ async function generateStructuredJson({ prompt, systemInstruction, schema }) {
       systemInstruction,
       temperature: 0.7,
       responseMimeType: "application/json",
-      responseJsonSchema: schema
+      responseSchema: schema
     }
   });
 
